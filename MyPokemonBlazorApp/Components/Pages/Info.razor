@@ -4,7 +4,39 @@
 <h3>Info</h3>
 @if (pokemon is not null)
 {
-    <p>@pokemon?.Name</p>
+    <div class="card">
+        <p>@pokemon?.Name</p>
+        <span class="badge text-bg-success">@pokemon?.Type</span>
+        <p>Generation @pokemon?.Generation</p>
+
+        <div class="container text-center">
+            <div class="row">
+                <div class="col align-self-start">
+                    HP: @pokemon.HP
+                </div>
+            </div>
+            <div class="row">
+                <div class="col align-self-start">
+                    Attack: @pokemon.Attack
+                </div>
+            </div>
+            <div class="row">
+                <div class="col align-items-start">
+                    Defence: @pokemon.Defence
+                </div>
+            </div>
+            <div class="row">
+                <div class="col align-items-start">
+                    Speed: @pokemon.Speed
+                </div>
+            </div>
+            <div class="row">
+                <div class="col align-items-start">
+                    Total: @pokemon.Total
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else
 {
