@@ -1,102 +1,132 @@
 ﻿@page "/Info/{id:int}"
 @inject DatabaseContext DbContext
 
-<h3>Info</h3>
 @if (pokemon is not null)
 {
-    <div class="card card-body bg-light">
-        <h1>@pokemon?.Name</h1>
-        <div class="d-flex">
-            <div class="p-1">
-                @if (pokemon.Type == "Grass")
-                {
-                    <span class="badge text-bg-success">@pokemon.Type</span>
-                }
-                else if (pokemon.Type == "Fire")
-                {
-                    <span class="badge text-bg-danger">@pokemon.Type</span>
-                }
-                else if (pokemon.Type == "Water")
-                {
-                    <span class="badge text-bg-primary">@pokemon.Type</span>
-                }
-                else if (pokemon.Type == "Bug")
-                {
-                    <span class="badge text-bg-success">@pokemon.Type</span>
-                }
-                else if (pokemon.Type == "Normal")
-                {
-                    <span class="badge text-bg-light">@pokemon.Type</span>
-                }
-                else if (pokemon.Type == "Poison")
-                {
-                    <span class="badge text-bg-success">@pokemon.Type</span>
-                }
-                else if (pokemon.Type == "Electric")
-                {
-                    <span class="badge text-bg-primary">@pokemon.Type</span>
-                }
+    <div class="card">
+        <div class="card-body bg-light list-group p-0">
+            <h1>@pokemon?.Name</h1>
+            <div class="d-flex list-group-item">
+                <div class="p-1">
+                    @if (pokemon.Type == "Grass")
+                    {
+                        <span class="badge rounded-pill text-bg-success">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Fire")
+                    {
+                        <span class="badge rounded-pill text-bg-danger">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Water")
+                    {
+                        <span class="badge rounded-pill text-bg-primary">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Bug")
+                    {
+                        <span class="badge rounded-pill text-bg-secondary">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Normal")
+                    {
+                        <span class="badge rounded-pill text-bg-info">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Poison")
+                    {
+                        <span class="badge rounded-pill text-bg-success">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Electric")
+                    {
+                        <span class="badge rounded-pill text-bg-primary">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Ground")
+                    {
+                        <span class="badge rounded-pill text-bg-success">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Fairy")
+                    {
+                        <span class="badge rounded-pill text-bg-success">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Fighting")
+                    {
+                        <span class="badge rounded-pill text-bg-danger">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Psychic")
+                    {
+                        <span class="badge rounded-pill text-bg-warning">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Rock")
+                    {
+                        <span class="badge rounded-pill text-bg-dark">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Ghost")
+                    {
+                        <span class="badge rounded-pill text-bg-light">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Ice")
+                    {
+                        <span class="badge rounded-pill text-bg-light">@pokemon.Type</span>
+                    }
+                    else if (pokemon.Type == "Steel")
+                    {
+                        <span class="badge rounded-pill text-bg-dark">@pokemon.Type</span>
+                    }
+                </div>
+
+                <div class="p-1">
+                    @if (pokemon.Legendary == true)
+                    {
+                        <span class="badge text-bg-warning">Legendary</span>
+                    }
+                </div>
             </div>
 
-            <div class="p-1">
-                @if (pokemon.Legendary == true)
-                {
-                    <span class="badge text-bg-warning">Legendary</span>
-                }
-                else
-                {
-                    <span class="badge text-bg-info">Not Legendary</span>
-                }
-            </div>
-        </div>
-        
-        <div>
-            <ul class="list-group">
-                <div class="row g-2 mb-1">
-                    <div class="col-md-2">HP:</div>
-                    <div class="col-md-9">
-                        <div class="progress progress-lg" style="height: 30px">
-                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="@pokemon.HP" style="width: @(pokemon.HP*100/255)%" aria-valuemin="0" aria-valuemax="255"></div>
+            <div class="list-group-item">
+                <ul class="list-group list-group-flush">
+                    <li class="row g-2 mb-1 list-group-item d-flex">
+                        <div class="col-md-2">HP:</div>
+                        <div class="col-md-9">
+                            <div class="progress progress-lg" style="height: 30px">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="@pokemon.HP" style="width: @(pokemon.HP*100/255)%" aria-valuemin="0" aria-valuemax="255"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-1">@pokemon.HP</div>
-                </div>
-                <li class="row g-2 mb-1">
-                    <p class="col-md-2">HP:</p>
-                    <div class="progress class=" col-md-9"" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-success" style="width: @(pokemon.HP*100/255)%"></div>
-                    </div>
-                    <p class="col-md-1">@pokemon.HP</p>
-                </li>
-                <li class="list-group-item d-flex">
-                    <p>Attack:</p>
-                    <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-info" style="width: @(pokemon.Attack*100/255)%"></div>
-                    </div>
-                    <p>@pokemon.Attack</p>
-                </li>
-                <li class="list-group-item d-flex">
-                    <p>Defence:</p>
-                    <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-warning" style="width: @(pokemon.Defence*100/255)%"></div>
-                    </div>
-                    <p>@pokemon.Defence</p>
-                </li>
-                <li class="list-group-item d-flex">
-                    <p>Speed:</p>
-                    <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-danger" style="width: @(pokemon.Speed*100/255)%"></div>
-                    </div>
-                    <p>@pokemon.Speed</p>
-                </li>
-                <li class="list-group-item d-flex">
-                    <p>Total:</p>
-                    <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-" style="width: @(pokemon.Total*100/800)%"></div>
-                    </div>
-                    <p>@pokemon.Total</p>
-                </li>
-            </ul>
+                        <div class="col-md-1">@pokemon.HP</div>
+                    </li>
+                    <li class="row g-2 mb-1 list-group-item d-flex">
+                        <div class="col-md-2">Attack:</div>
+                        <div class="col-md-9">
+                            <div class="progress progress-lg" style="height: 30px">
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="@pokemon.Attack" style="width: @(pokemon.Attack*100/255)%" aria-valuemin="0" aria-valuemax="255"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">@pokemon.Attack</div>
+                    </li>
+                    <li class="row g-2 mb-1 list-group-item d-flex">
+                        <div class="col-md-2">Defence:</div>
+                        <div class="col-md-9">
+                            <div class="progress progress-lg" style="height: 30px">
+                                <div class="progress-bar bg-normal" role="progressbar" aria-valuenow="@pokemon.Defence" style="width: @(pokemon.Defence*100/255)%" aria-valuemin="0" aria-valuemax="255"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">@pokemon.Defence</div>
+                    </li>
+                    <li class="row g-2 mb-1 list-group-item d-flex">
+                        <div class="col-md-2">Speed:</div>
+                        <div class="col-md-9">
+                            <div class="progress progress-lg" style="height: 30px">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="@pokemon.Speed" style="width: @(pokemon.Speed*100/255)%" aria-valuemin="0" aria-valuemax="255"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">@pokemon.Speed</div>
+                    </li>
+                    <li class="row g-2 mb-1 list-group-item d-flex">
+                        <div class="col-md-2">Total:</div>
+                        <div class="col-md-9">
+                            <div class="progress progress-lg" style="height: 30px">
+                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@pokemon.Total" style="width: @(pokemon.Total*100/800)%" aria-valuemin="0" aria-valuemax="255"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">@pokemon.Total</div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     

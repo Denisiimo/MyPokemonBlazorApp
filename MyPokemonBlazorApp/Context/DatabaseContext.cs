@@ -9,7 +9,7 @@ namespace MyPokemonBlazorApp.Context
         public DbSet<Trainer> Trainers { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var folder = Environment.SpecialFolder.MyDocuments;
+            var folder = Environment.SpecialFolder.Desktop;
             var path = Environment.GetFolderPath(folder);
             var dbpath = Path.Join(path, "pokemon.db"); // this is my database
             optionsBuilder.UseSqlite($"Data Source={dbpath}");
