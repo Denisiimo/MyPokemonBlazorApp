@@ -10,6 +10,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddDbContext<DatabaseContext>();
 
+builder.Services.AddScoped<PokemonImageGrabber>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
