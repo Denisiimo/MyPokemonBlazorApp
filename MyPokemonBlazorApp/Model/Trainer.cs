@@ -1,5 +1,4 @@
-﻿
-namespace MyPokemonBlazorApp.Model
+﻿namespace MyPokemonBlazorApp.Model
 {
     public class Trainer
     {
