@@ -16,15 +16,15 @@
     <div class="card">
         <div class="card-body bg-light">
             <h4 class="card-title">
-                @(model.Id == 0 ? "Add Trainer" : "Edit Trainer")
+                @(Model.Id == 0 ? "Add Trainer" : "Edit Trainer")
             </h4>
             <EditForm OnValidSubmit="Submit" EditContext="editContext">
                 <DataAnnotationsValidator />
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="name" class="form-label">Name</label>
-                        <InputText class="form-control" placeholder="Name" @bind-Value="model.Name" />
-                        <ValidationMessage For="@(() => model.Name)" />
+                        <InputText class="form-control" placeholder="Name" @bind-Value="Model.Name" />
+                        <ValidationMessage For="@(() => Model.Name)" />
                     </div>
                     <div class="col-md-6">
                         <label for="name" class="form-label">Companion</label>
@@ -34,10 +34,10 @@
                                 <option value="@pokemon.Id">@pokemon.Name</option>
                             }
                         </InputSelect>
-                        <ValidationMessage For="@(() => model.Companion)" />
+                        <ValidationMessage For="@(() => Model.Companion)" />
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary float-end">@(model.Id == 0 ? "Add Trainer" : "Save Changes")</button>
+                        <button type="submit" class="btn btn-primary float-end">@(Model.Id == 0 ? "Add Trainer" : "Save Changes")</button>
                     </div>
                 </div>
             </EditForm>
@@ -61,7 +61,7 @@
             <tr>
                 <td>@trainer.Id</td>
                 <td>@trainer.Name</td>
-                <td>@trainer.Companion</td>
+                <td>@trainer.Companion.Name</td>
                 <td>
                     <button class="btn btn-success" @onclick="() => Edit(trainer)">Edit</button>
                 </td>
@@ -75,9 +75,13 @@
 
 @code {
 
+    [Parameter]
+    public EventCallback<bool> OnSaved { get; set; }
+
     //private IQueryable<Trainer>? trainers;
+    private Trainer? trainer;
     private List<Trainer>? trainers;
-    private EditContext editContext;
+    private EditContext? editContext;
     private Trainer? model;
     private bool showForm;
 
@@ -100,17 +104,15 @@
 
     private async Task Submit()
     {
-        if (model.Id == 0)
-        {
-            DbContext.Trainers.Add(model);
-        }
-        else
-        {
-            DbContext.Trainers.Update(model);
-        }
+        Model.Companion = pokemons.Single(p => p.Id == companionId);
 
+        if (Model.Id == 0)
+            DbContext.Trainers.Add(Model);
+        else
+            DbContext.Trainers.Update(Model);
 
         await DbContext.SaveChangesAsync();
+        await OnSaved.InvokeAsync();
         await Refresh();
     }
 
@@ -118,7 +120,6 @@
     protected override async Task OnInitializedAsync()
     {
         await Refresh();
-
     }
 
     private async Task Refresh()
@@ -126,6 +127,7 @@
         model = new Trainer();
         editContext = new EditContext(model);
         trainers = await DbContext.Trainers.ToListAsync();
+        pokemons = await DbContext.Pokemons.OrderBy(p => p.Name).ToListAsync();
     }
 
     private async Task Delete(Trainer trainer)
@@ -133,5 +135,21 @@
         DbContext.Trainers.Remove(trainer);
         await DbContext.SaveChangesAsync();
         await Refresh();
+    }
+
+    public Trainer Model
+    {
+        get
+        {
+            return model;
+        }
+        set
+        {
+            model = value ?? new Trainer();
+            if (model.Companion is null)
+                model.Companion = new Pokemon();
+            companionId = model.Companion.Id;
+            editContext = new(model);
+        }
     }
 }
